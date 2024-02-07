@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23D56" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Activity" representedClassName="Activity" syncable="YES" codeGenerationType="class">
+        <attribute name="activity" optional="YES" attributeType="String"/>
+        <attribute name="comment" optional="YES" attributeType="String"/>
+        <attribute name="duration" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="post" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Post" inverseName="activities" inverseEntity="Post"/>
+        <relationship name="usersInContext" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="activities" inverseEntity="User"/>
+    </entity>
+    <entity name="Message" representedClassName="Message" syncable="YES" codeGenerationType="class">
+        <attribute name="content" attributeType="String"/>
+        <attribute name="hasRead" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isCurrentUser" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="receiver" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="receivedMessages" inverseEntity="User"/>
+        <relationship name="sender" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="sentMessages" inverseEntity="User"/>
+    </entity>
+    <entity name="Post" representedClassName="Post" syncable="YES" codeGenerationType="class">
+        <attribute name="caption" optional="YES" attributeType="String"/>
+        <attribute name="hasBookmarked" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="hasLiked" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="likes" optional="YES" attributeType="String"/>
+        <attribute name="postImage" optional="YES" attributeType="Binary"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="activities" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Activity" inverseName="post" inverseEntity="Activity"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="posts" inverseEntity="User"/>
+    </entity>
+    <entity name="Story" representedClassName="Story" syncable="YES" codeGenerationType="class">
+        <attribute name="hasSeen" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isMyStory" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="stories" inverseEntity="User"/>
+    </entity>
+    <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="userImage" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="userName" attributeType="String"/>
+        <relationship name="activities" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Activity" inverseName="usersInContext" inverseEntity="Activity"/>
+        <relationship name="posts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Post" inverseName="user" inverseEntity="Post"/>
+        <relationship name="receivedMessages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Message" inverseName="receiver" inverseEntity="Message"/>
+        <relationship name="sentMessages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Message" inverseName="sender" inverseEntity="Message"/>
+        <relationship name="stories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Story" inverseName="user" inverseEntity="Story"/>
+        <relationship name="videos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Video" inverseName="user" inverseEntity="Video"/>
+    </entity>
+    <entity name="Video" representedClassName="Video" syncable="YES" codeGenerationType="class">
+        <attribute name="caption" optional="YES" attributeType="String"/>
+        <attribute name="comments" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="likes" optional="YES" attributeType="String"/>
+        <attribute name="videoURL" optional="YES" attributeType="String"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="videos" inverseEntity="User"/>
+    </entity>
+</model>
